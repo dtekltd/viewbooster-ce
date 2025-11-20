@@ -34,7 +34,7 @@ jobs:
         with:
           node-version: "24.0.1"
           cache: "npm"
-          cache-dependency-path: "client/package-lock.json"
+          cache-dependency-path: "app/package-lock.json"
 
       - name: Build App
         working-directory: ./app
