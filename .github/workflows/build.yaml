@@ -41,7 +41,21 @@ jobs:
         run: |
           npm install
           npm run build
-          cp -a dist/spa/* ../server/ui/spa/
+          cp -a dist/spa/* ../server/app/spa/
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: Build Landing Page
+        working-directory: ./landing
+        run: |
+          npm install
+          npm run build:css
+          hugo --minify
+          cp -a public/* ../server/web/landing/
 
       - name: Setup Go
         uses: actions/setup-go@v4
@@ -50,9 +64,9 @@ jobs:
           cache: true
 
       - name: Build Server
+        working-directory: ./server
         run: |
           set -e
-          cd server
           CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o ./booster .
 
       - name: Set up Docker Buildx
