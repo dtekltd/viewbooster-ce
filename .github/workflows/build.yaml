@@ -4,7 +4,8 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        required: true
+        required: false
+        description: "Tag or version to build (leave empty for main branch)"
         type: string
 
 permissions:
