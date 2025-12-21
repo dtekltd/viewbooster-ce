@@ -25,9 +25,19 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - name: Checkout Tag
+      # - name: Checkout Tag
+      #   run: |
+      #     git checkout ${{ inputs.version }}
+
+      - name: Checkout Tag (if version not empty)
+        if: ${{ inputs.version != '' }}
         run: |
           git checkout ${{ inputs.version }}
+
+      - name: Ensure Main (if version == '')
+        if: ${{ inputs.version == '' }}
+        run: |
+          echo "Version is empty, staying on main branch"
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
